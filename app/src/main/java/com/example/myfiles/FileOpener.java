@@ -13,17 +13,16 @@ public class FileOpener {
     public static void OpenFile(Context context, File file) throws IOException{
         File selectedFile = file;
         Uri uri = FileProvider.getUriForFile(context,context.getApplicationContext().getPackageName() + ".provider", file);
-
         Intent intent = new Intent(Intent.ACTION_VIEW);
 
         if (uri.toString().contains(".doc")){
-            intent.setDataAndType(uri,"application/msword");
+            intent.setDataAndType(uri,"application/docs");
         }
         else if (uri.toString().contains(".pdf")){
-            intent.setDataAndType(uri,"application/pdf");
+            intent.setDataAndType(uri,"application/office");
         }
         else if (uri.toString().contains(".pdf")){
-            intent.setDataAndType(uri,"application/pdf");
+            intent.setDataAndType(uri,"application/office");
         } else if (uri.toString().contains(".mp3") || uri.toString().contains(".wav") ){
             intent.setDataAndType(uri,"audio/x-wav");
         }else if (uri.toString().toLowerCase().contains(".jpeg") || uri.toString().toLowerCase().contains(".jpg") || uri.toString().toLowerCase().contains(".png") ){

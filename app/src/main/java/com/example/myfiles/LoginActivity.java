@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myfiles.Fragments.HomeFragment;
@@ -16,6 +17,7 @@ import com.example.myfiles.Fragments.HomeFragment;
 public class LoginActivity extends AppCompatActivity {
 EditText edtEmail, edtPassword;
 Button loginButton;
+TextView textRegister;
 DatabaseHelper myDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ DatabaseHelper myDb;
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.editTextLoginEmail);
         edtPassword = findViewById(R.id.editTextLoginPassword);
+        textRegister = findViewById(R.id.goto_register_activity);
         loginButton = findViewById(R.id.cirLoginButton);
         myDb = new DatabaseHelper(this);
 
@@ -38,12 +41,11 @@ DatabaseHelper myDb;
                 }else {
                     Boolean resultData = myDb.checkData(email,passwordLogin);
                     if (resultData == true){
-                        //it means user is valid, then move to homeFragment
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        Toast.makeText(LoginActivity.this, "Invalid user credentials", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                     }
                 }
             }

@@ -7,9 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ import com.example.myfiles.FileAdapter;
 import com.example.myfiles.FileOpener;
 import com.example.myfiles.OnFileSelectedListener;
 import com.example.myfiles.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +47,7 @@ import java.util.List;
 
 public class CardFragment extends Fragment implements OnFileSelectedListener {
 
+    private static final int TAG = 1;
     View view;
     private FileAdapter fileAdapter;
     private RecyclerView recyclerView;
@@ -59,6 +63,19 @@ public class CardFragment extends Fragment implements OnFileSelectedListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_card,container,false);
+
+        if (ContextCompat.getExternalFilesDirs(getContext(),null).length >= 2){
+            File[] f = ContextCompat.getExternalFilesDirs(getContext(),null);
+            for (int i=0; i<f.length; i++){
+                File file = f[i];
+                if (file != null && i == 1){
+                    Log.d(String.valueOf(TAG),file.getAbsolutePath()+"External sd card is available");
+                }
+            }
+        }else {
+            Toast.makeText(getContext(), "SD card is not available\n Please insert one.", Toast.LENGTH_SHORT).show();
+        }
+
 
         tv_pathHolder = view.findViewById(R.id.tv_pathHolder);
         img_back = view.findViewById(R.id.img_back);
@@ -82,7 +99,7 @@ public class CardFragment extends Fragment implements OnFileSelectedListener {
         }
 
         tv_pathHolder.setText(storage.getAbsolutePath());
-//        runtimepermission();
+        runtimepermission();
 
         return view;
     }

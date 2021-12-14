@@ -87,6 +87,7 @@
 
             <TextView
                 style="@style/parent"
+                android:id="@+id/goto_register_activity"
                 android:layout_marginTop="@dimen/loginViewsMargin"
                 android:onClick="onLoginClick"
                 android:text="New user? Register Now"

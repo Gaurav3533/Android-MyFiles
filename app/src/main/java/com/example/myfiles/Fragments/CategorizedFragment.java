@@ -61,6 +61,15 @@ public class CategorizedFragment extends Fragment implements OnFileSelectedListe
         if (bundle.getString("fileType").equals("downloads")){
             path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         }
+        else if (bundle.getString("fileType").equals("image")){
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        }
+        else if (bundle.getString("fileType").equals("music")){
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        }
+        else if (bundle.getString("fileType").equals("image")){
+            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        }
         else {
             path = Environment.getExternalStorageDirectory();
         }
@@ -114,7 +123,7 @@ public class CategorizedFragment extends Fragment implements OnFileSelectedListe
                             }
                             break;
                         case "video":
-                            if (singleFile.getName().toLowerCase().endsWith(".mp4")) {
+                            if (singleFile.getName().toLowerCase().endsWith(".mp4") ||singleFile.getName().toLowerCase().endsWith(".mkv")) {
                                 arrayList.add(singleFile);
                             }
                             break;

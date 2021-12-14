@@ -7,18 +7,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    private static final String dbname = "Login.db";
+
     public DatabaseHelper(Context context) {
-        super(context, "Login.db", null, 1);
+        super(context, dbname, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase myDb) {
-        myDb.execSQL("Create Table users(email Text primary key, password Text)");
+        myDb.execSQL("Create Table users(id integer primary key autoincrement,Email text, Password text)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase myDb, int oldVersion, int newVersion) {
         myDb.execSQL("drop Table if exists users");
+        onCreate(myDb);
     }
 
     @Override
@@ -26,11 +29,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.setVersion(oldVersion);
     }
 
-    public Boolean insertData(String email, String password) {
+    public Boolean insertData( String email, String password) {
         SQLiteDatabase myDB = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("email", email);
-        contentValues.put("password", password);
+        contentValues.put("Email", email);
+        contentValues.put("Password", password);
 
         long result = myDB.insert("users", null, contentValues);
         //it means task is failed
@@ -43,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Boolean checkExistedUser(String email) {
         SQLiteDatabase myDB = this.getWritableDatabase();
-        Cursor cursor = myDB.rawQuery("Select * from users where email = ?", new String[]{email});
+        Cursor cursor = myDB.rawQuery("Select * from users where Email=?", new String[]{email});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -53,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Boolean checkData(String email, String password) {
         SQLiteDatabase myDB = this.getWritableDatabase();
-        Cursor cursor = myDB.rawQuery("Select * from users where email = ? and password = ?", new String[]{email, password});
+        Cursor cursor = myDB.rawQuery("Select * from users where Email=? and Password=?", new String[]{email, password});
 
         if (cursor.getCount() > 0) {
             return true;
